@@ -1,0 +1,158 @@
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add New URL</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url('https://static.vecteezy.com/system/resources/previews/011/635/825/non_2x/abstract-square-interface-modern-background-concept-fingerprint-digital-scanning-visual-security-system-authentication-login-vector.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    form {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    
+  
+    form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    }
+  
+    form:focus-within {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.3);
+    }
+    
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 15px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    input[type="text"],
+    input[type="url"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    
+    input[type="text"]:focus,
+    input[type="url"]:focus {
+      border-color: #007BFF;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+      transform: scale(1.02);
+    }
+    
+    button[type="submit"] {
+      width: 100%;
+      background-color: #007BFF;
+      color: white;
+      padding: 14px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+      transform: scale(1.02);
+    }
+   
+    .back-home {
+      position: absolute;
+      top: 40px;
+      right: 30px;
+      background-color: #ffffffcc;
+      color: #007BFF;
+      padding: 10px 16px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .back-home:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+    
+    
+    
+    @media (max-width: 480px) {
+      form {
+        padding: 30px 20px;
+      }
+    
+      h2 {
+        font-size: 20px;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <a href="/" class="back-home">← Back to Home</a>
+
+  <form id="urlForm" method="POST" action="/create">
+    <h2>Add New URL</h2>
+
+    <label>
+      Name:
+      <input type="text" name="Name" required />
+    </label>
+
+    <label>
+      Category:
+      <input type="text" name="Category" />
+    </label>
+
+    <label>
+      URL:
+      <input type="url" name="URL" placeholder="https://example.com" required />
+    </label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>
