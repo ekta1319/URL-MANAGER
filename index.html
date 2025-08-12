@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>  
+        body {
+            background-image: url("https://img.freepik.com/premium-photo/background-image-mockup-design_853558-32653.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: #f8fafc;
+        }
+
+        a, h1, h2, h3, span, div, label, button {
+            color: #f8fafc;
+        }
+
+        body, html {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .shadow:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            transform: translateY(-4px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover, .view-all-btn:hover {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        h1 {
+            transition: all 0.5s ease-in-out;
+            transform: scale(1);
+        }
+
+        h1:hover {
+            transform: scale(1.05);   
+        }
+
+        .fvrt {
+            text-align: center;
+            width: 200px;
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 12px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 70px;
+            margin-top: 15px;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .fvrt:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            transform: translateY(-4px) scale(1.05);
+            background: #dc2626 !important;
+        }
+
+        #addCredBtn {
+            padding-top: 7px;
+            margin-left: 250px;
+        }
+
+        #suggestedCategories span {
+            background-color: #fff1f2;
+            color: #7f1d1d;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #9ca3af;
+            border-radius: 10px;
+        }
+
+        input, textarea, select {
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            border-color: #f59e0b;
+        }
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeSlide {
+            animation: fadeSlide 0.8s ease-out;
+        }
+
+        span.greeting-text {
+            display: block;
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            transition: all 0.5s ease-in-out;
+            transform: scale(1);
+        }
+        #totalCategories{
+            color:black;
+        }
+
+        #totalFavorites{
+            color:black;
+        }
+
+        #totalUrls{
+            color:black;
+        }
+
+        span.greeting-text:hover {
+            transform: scale(1.05);        
+        }
+
+        
+    </style>
+</head>
+<body class="min-h-screen">
+    <h2>{{ session['user_name'] }}!</h2>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="flex items-center">
+                <img 
+                src="https://is5-ssl.mzstatic.com/image/thumb/Purple114/v4/ee/f2/db/eef2db68-16f3-e524-6c6c-453a528c5278/source/512x512bb.jpg" 
+                alt="URL Manager logo - circular icon with link chain symbol in purple" 
+                class="mr-3 rounded-full transition-transform duration-300 ease-in-out hover:scale-110 hover:shadow-xl" 
+                style="width: 64px; height: 64px;">
+              
+                <h1 class="text-1xl font-bold text-white bg-black/80 px-8 py-3 rounded-xl shadow-lg text-center mx-auto w-max whitespace-nowrap">
+                    URL Manager
+                  </h1> 
+            </div>
+            <a href="/add-credentials">
+                <button id="addCredBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-red-700 transition-transform hover:-translate-y-1 shadow-md">
+                    <svg class="h-5 w-5 mr-2 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    new Credentials
+                </button>
+            </a>
+            <div class="flex gap-3">
+                <a href="/url">
+                    <button id="addUrlBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-transform hover:-translate-y-1 shadow-md">
+                        <svg class="h-5 w-5 mr-2 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Add URL
+                    </button>
+                </a>
+        
+              
+                <div class="flex gap-3 items-center">
+                    {% if user_name %}
+                      <a href="/logout">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-red-700 transition">
+                            🔓 Logout
+                        </button>
+                      </a>
+                    {% else %}
+                      <a href="/login">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            🔑 Login
+                        </button>
+                      </a>
+                    {% endif %}
+                </div>
+                  
+            </div>
+            
+            
+        </header> 
+       
+        <span class="greeting-text">
+            👋 Hello, {{ user_name }}  !
+          </span>
+            
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="text-gray-500 text-sm">Total URLs</div>
+                <div class="text-2xl font-bold" id="totalUrls">{{items}}</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="text-gray-500 text-sm">Categories</div>
+                <div class="text-2xl font-bold" id="totalCategories">{{category}}</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="text-gray-500 text-sm">Favorites</div>
+                <div class="text-2xl font-bold" id="totalFavorites">{{favorite}}</div>
+            </div>
+        </div>
+        
+        <!-- Categories Filter -->
+        <div id="categoryFilter" class="mb-6 flex flex-wrap gap-2 hidden">
+            <!-- Categories will be dynamically added here -->
+        </div>
+        
+        <!-- URL List -->
+        <div id="urlContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap—4">
+            <!-- URL cards will be dynamically added here -->
+            {% if(items <= 0) %}
+            <div class="col-span-full text-center py-10 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                <h3 class="text-xl font-semibold">No URLs added yet</h3>
+                <p class="mb-4">Click the "Add URL" button to get started</p>
+                <a href="/url"> <button id="firstUrlBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                Add your first URL
+            </button></a>
+            </div>
+            {% else %}
+            <a href="/view-all" class="fvrt">VIEW ALL URL'S</a>
+            <a href="/view-all-favorite" class="fvrt">VIEW ALL FAVORITE</a>
+            <a href="/all-credentials" class="fvrt hover:bg-red-600 hover:scale-105 transition-all duration-300 ease-in-out" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                ⚠️ ALL CREDENTIALS
+            </a>
+            
+            
+            {% endif %}
+            
+        </div>
+    </div>
+    
+    <div id="addUrlModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+            <div class="p-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800">Add New URL</h3>
+            </div>
+            
+            <div class="p-6">
+                <form id="urlForm">
+                    <div class="mb-4">
+                        <label for="urlTitle" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                        <input type="text" id="urlTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="urlLink" class="block text-sm font-medium text-gray-700 mb-1">URL</label>
+                        <input type="url" id="urlLink" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="urlCategory" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="urlCategory" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <button type="button" id="newCategoryBtn" class="px-3 py-2 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors">
+                                New
+                            </button>
+                        </div>
+                        <div class="mt-2 flex flex-wrap gap-2" id="suggestedCategories">
+                           
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="urlDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea id="urlDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    
+                    <div class="flex items-center mb-6">
+                        <input type="checkbox" id="urlFavorite" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="urlFavorite" class="ml-2 block text-sm text-gray-700">Mark as favorite</label>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="p-4 border-t border-gray-200 flex justify-end gap-3">
+                <button id="cancelAddBtn" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">
+                    Cancel
+                </button>
+                <button id="saveUrlBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                    Save URL
+                </button>
+            </div>
+        </div>
+    </div>
+
+   <!-- <footer style="text-align: center; padding: 20px; background-color: #ffffff40; backdrop-filter: blur(10px); color: white; font-size: 14px; border-top: 1px solid #ccc; margin-top: 40px;">
+        © 2025 Made with ❤️ by Kanhaiya
+      </footer>-->
+      
+    
+</body>
+<html>
