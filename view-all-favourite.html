@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW ALL FAVORITE </title>
+    <style>
+        * {
+           
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          }
+      
+          body {
+            background:url('https://images.freecreatives.com/wp-content/uploads/2016/04/Best-Website-New-Wallpaper.jpg') no-repeat center center fixed;
+            margin-top:50px;
+          }
+      
+          h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+          }
+      
+          .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 25px;
+            margin: 20px auto;
+            max-width: 600px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+      
+          .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+          }
+      
+          .info {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #444;
+          }
+      
+          .url a {
+            color: #1e90ff;
+            text-decoration: none;
+            word-break: break-all;
+          }
+      
+          .url a:hover {
+            text-decoration: underline;
+          }
+      
+          .actions {
+            margin-top: 15px;
+            text-align: right;
+          }
+      
+          .fvrt-btn {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+
+          .back-home {
+            position: fixed;
+            top: 40px;
+            right: 30px;
+            background-color: #ffffffcc;
+            color: blue;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 1000;
+          }
+          
+          .back-home:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+          }
+          
+      
+          .fvrt-btn:hover {
+            background-color: #c0392b;
+          }
+      
+          @media (max-width: 600px) {
+            .card {
+              padding: 15px;
+            }
+      
+            .fvrt-btn {
+              width: 100%;
+              margin-top: 10px;
+            }
+      
+            .actions {
+              text-align: center;
+            }
+          }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-home">← Back to Home</a>
+    <h1>ALL FAVORITES</h1>
+    {% for favorite in favorites %}
+    <div class="card">
+      <div class="info"><strong>Name:</strong> {{ favorite.Name }}</div>
+      <div class="info"><strong>Category:</strong> {{ favorite.Category }}</div>
+      <div class="info url"><strong>URL:</strong> <a href="{{ favorite.URL }}" target="_blank">{{ favorite.URL }}</a></div>
+      <div class="actions">
+        <form action="{{ url_for('unfavorite') }}" method="POST" style="display: inline;">
+          <input type="hidden" name="name" value="{{ favorite.Name }}">
+          <input type="hidden" name="category" value="{{ favorite.Category }}">
+          <input type="hidden" name="url" value="{{ favorite.URL }}">
+          <button class="fvrt-btn" type="submit">
+          Unfavorite
+          </button>
+      </form>
+      </div>
+    </div>
+    {% endfor %}
+</body>
+</html>
