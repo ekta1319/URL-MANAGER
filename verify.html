@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify Your Account</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #3a8dde, #7ed6f4);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeBody 1.5s ease-in;
+    }
+
+    @keyframes fadeBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .verification-box {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      animation: slideUp 1.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .verification-box h2 {
+      font-size: 24px;
+      color: #003f7d;
+      margin-bottom: 15px;
+      animation: fadeIn 1s ease;
+    }
+
+    .verification-box p {
+      font-size: 15px;
+      color: #062d59;
+      margin-bottom: 30px;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .code-inputs input {
+      width: 300px;
+      height: 58px;
+      font-size: 22px;
+      text-align: center;
+      border: none;
+      border-radius: 10px;
+      background: #e8f3ff;
+      color: #003f7d;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      outline: none;
+      transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+      animation: bounceIn 0.6s ease forwards;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .code-inputs input:focus {
+      transform: scale(1.1);
+      border: 2px solid #2c7cd1;
+      box-shadow: 0 0 8px rgba(44, 124, 209, 0.5);
+    }
+
+    .verify-btn {
+      background: #2c7cd1;
+      color: white;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      animation: fadeIn 1.5s ease;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .verify-btn:hover {
+      background: #1d5fab;
+      transform: scale(1.05);
+    }
+
+    .verify-btn:active {
+      transform: scale(0.95);
+    }
+
+    .resend-text {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #003f7d;
+      animation: fadeIn 1.8s ease;
+    }
+
+    .resend-text span {
+      color: #003f7d;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .resend-text span:hover {
+      color: #1d5fab;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="verification-box">
+    <h2>Verify Your Account</h2>
+    <p>We emailed you the six digit code to <strong>your@email.com</strong><br/>
+       Enter the code below to confirm your email address</p>
+
+      <form action="/verify-otp" method="POST">
+    <div class="code-inputs">
+      <input type="text" name="otp">
+    </div>
+
+    <button class="verify-btn">VERIFY</button>
+  </form>
+
+    <div class="resend-text">
+      If you didn’t receive a code !! <span>RESEND</span>
+    </div>
+  </div>
+
+</body>
+</html>
