@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Cards (HTML + CSS only)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://wallpaperaccess.com/full/1858893.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ffffffdd;
+      font-size: 2em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      color: #333;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .info {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .info strong {
+      display: inline-block;
+      width: 100px;
+      color: #3742fa;
+    }
+    
+
+    .url a {
+      color: #4cd3ff;
+      text-decoration: none;
+      word-break: break-all;
+      transition: color 0.3s ease;
+    }
+
+    .url a:hover {
+      color: #00ffff;
+      text-decoration: underline;
+    }
+
+    .actions {
+      margin-top: 5px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* align buttons right */
+    }
+    
+
+    .delete-btn,
+    .fvrt-btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .delete-btn {
+      background-color: #ff4d4d;
+      color: #fff;
+    }
+
+    .delete-btn:hover {
+      background-color: #e84118;
+      transform: scale(1.05);
+    }
+
+    .fvrt-btn {
+      background-color: #f1c40f;
+      color: #2c3e50;
+    }
+
+    .fvrt-btn:hover {
+      background-color: #f39c12;
+      transform: scale(1.05);
+    }
+
+    .back-button-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+    
+    .back-button {
+      top:40;
+      background-color: #00a8ff;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.7);
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .back-button:hover {
+      background-color: #0090e3;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 168, 255, 0.9);
+    }
+    
+    .back-button i {
+      margin-right: 8px;
+    }
+    
+    
+
+    form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 600px) {
+      .info strong {
+        width: 80px;
+      }
+
+      form {
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .delete-btn,
+      .fvrt-btn {
+        width: 100%;
+      }
+
+      .back-button {
+        right: 10px;
+        top: 10px;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="back-button-wrapper">
+    <a href="/" class="back-button"><i class="fas fa-home"></i> Back to Home</a>
+  </div>
+    <h2>All URL's</h2>
+    {% for user in users %}
+    <div class="card">
+      <div class="info"><strong>Name:</strong> {{ user.Name }}</div>
+      <div class="info"><strong>Category:</strong> {{ user.Category }}</div>
+      <div class="info url"><strong>URL:</strong> <a href="{{ user.URL }}" target="_blank">{{ user.URL }}</a></div>
+      <div class="actions">
+        <form action="{{ url_for('delete_card') }}" method="POST">
+          <input type="hidden" name="name" value="{{ user.Name }}">
+          <input type="hidden" name="category" value="{{ user.Category }}">
+          <input type="hidden" name="url" value="{{ user.URL }}">
+          <button class="delete-btn" type="submit">Delete</button>
+          </button>
+        </form>
+        <form action="{{ url_for('favorite') }}" method="POST" style="display: inline;">
+          <input type="hidden" name="name" value="{{ user.Name }}">
+          <input type="hidden" name="category" value="{{ user.Category }}">
+          <input type="hidden" name="url" value="{{ user.URL }}">
+          <button class="fvrt-btn" type="submit">
+          {% if user.favorite %}
+            ★
+            {% else %}
+            ☆
+          {% endif %}
+          </button>
+      </form>
+       
+      </div>
+    </div>
+    {% endfor %}
+</body>
+</html>
